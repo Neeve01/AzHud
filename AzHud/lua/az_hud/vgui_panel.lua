@@ -93,7 +93,13 @@ function PANEL:Init()
 	avatar_frame:Dock(LEFT)
 	avatar_frame:SetWide(self.Container:GetTall() - frame_margin * 2)
 	function avatar_frame:Paint(w, h)
-		drawBar(0, 0, w, h, Color(255, 191, 0, 160), avatar_border_round(), true, true, true, true)
+		local color = Color(255, 191, 0, 160)
+		if (IsValid(mainPanel.Player)) then
+			local teamcolor = team.GetColor(mainPanel.Player:Team())
+			color = Color(teamcolor.r, teamcolor.g, teamcolor.b, alpha)
+		end
+	
+		drawBar(0, 0, w, h, color, avatar_border_round(), true, true, true, true)
 	end
 	
 	local margin = avatar_margin()
@@ -206,8 +212,8 @@ function PANEL:Init()
 				drawBar(margin, margin, w - margin * 2, h - margin * 2, color, DEFAULT_ROUND, true, true, true, true)
 			render.SetScissorRect(0, 0, 0, 0, false)
 			
-			local mph = self.RealVelocity * 0.01905
-			text = string.format("%.1f unit/s, %.1f meter/s", self.RealVelocity, mph)
+			local mph = (self.RealVelocity * 0.01905) * 2.23694
+			text = string.format("%.1f unit/s, %.1f miles/h", self.RealVelocity, mph)
 		end
 		
 		if (text) then
