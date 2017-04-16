@@ -1,0 +1,1 @@
+AzHud = AzHud or {}
